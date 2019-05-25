@@ -42,9 +42,6 @@ body {font-family: "Lato", sans-serif}
 <body>
 
 <script language="javascript">
-	//var data = ['1234', 'NTUST', 'Ben', 'NTU'];
-  	//var data1 = ['2345', 'NTU', 'Kevin', 'NTUST'];
-  	//var booklists = [data, data1];
   var booklists = [];
   //booklists.push(data1);
   //booklists.push(data);
@@ -60,38 +57,37 @@ body {font-family: "Lato", sans-serif}
   	
   	var bookname_value = document.getElementsByName(bookname)[0].value;
   	var rowCount=document.getElementById('demo').rows.length;
-  	//document.getElementById("demo").innerHTML = bo;
-  	console.log(rowCount);
+    var search_flag=0;   //A flag confirm whether the book is included in booklist
   	var target = document.getElementById('demo');
-  	if(rowCount>1){
+    
+  	if(rowCount>1){   //dynamic clear table
   		document.getElementById('demo').deleteRow(-1)
   	}
 
-  	for (var i=0;i<booklists.length;i++){
+  	for (var i=0;i<booklists.length;i++){  //search book and print
   		if(booklists[i][1]==bookname_value){
   			target.innerHTML += "<tr><td>"+booklists[i][0]+"</td><td>"+booklists[i][1]+"</td><td>"+booklists[i][2]+"</td><td>"+booklists[i][3]+"</td></tr>";
   			rowCount++;
+        search_flag=1;
   		}
   	}
-  
-  	/*if(bookname_value=='NTUST'){
-  		target.innerHTML += "<tr><td>"+data[0]+"</td><td>"+data[1]+"</td><td>"+data[2]+"</td><td>"+data[3]+"</td></tr>";
-  		rowCount++;
-  	}
-  	if(bookname_value=='NTU'){
-  		target.innerHTML += "<tr><td>"+data1[0]+"</td><td>"+data1[1]+"</td><td>"+data1[2]+"</td><td>"+data1[3]+"</td></tr>";
-  		rowCount++;
-  	}*/
-  	
+
+    if(search_flag==0){
+      target.innerHTML += "<tr><td>"+"NULL"+"</td><td>"+"NULL"+"</td><td>"+"NULL"+"</td><td>"+"NULL"+"</td></tr>";
+    }
+    //console.log(bookname);
+  	document.getElementById(bookname).value="";
   }
   function deleteBookName(bookname){
-
   	var bookname_value = document.getElementsByName(bookname)[0].value;
-  	for (var i=0;i<booklists.length;i++){
+
+  	for (var i=0;i<booklists.length;i++){  //search booklist and delete the book
   		if(booklists[i][1]==bookname_value){
   			booklists.splice(i,1);
   		}
   	}
+
+    document.getElementById(bookname).value=""; //clear text input's value
   }
 </script>
 
@@ -127,7 +123,7 @@ body {font-family: "Lato", sans-serif}
             <option>Borrower</option>
             <option>Branch</option>
           </select>
-          <input type="text" placeholder="Search" name="bookName" style="width:79%; display:inline"></center>
+          <input type="text" placeholder="Search" id='bookName' name="bookName" style="width:79%; display:inline"></center>
         </div>
         <!--<button onclick="data()" class="btn btn-primary">Submit</button>-->
     </form>
@@ -172,22 +168,57 @@ body {font-family: "Lato", sans-serif}
 
   	var tmp=[bookid_value, title_value, author_value, publisher_value];
   	booklists.push(tmp);
-  	//var bo_value = document.getElementsByName(bo)[0].value;
-  	//console.log(bo_value);
-  	//document.getElementById("demo").innerHTML = bo;
 
+    document.getElementById(bookid).value="";
+    document.getElementById(title).value="";
+    document.getElementById(author).value="";
+    document.getElementById(publisher).value="";
+  }
+
+</script>
+
+<script language="javascript">
+  /*var library[6];
+  library[0]=['kevin':aaa, 'alan':bbb];
+  library[1]=['helen1':abc, 'yyy1':xxx];
+  library[2]=['helen2':ccc, 'yyy2':xxx];
+  library[3]=['helen3':fff, 'yyy':xxx];
+  library[4]=['helen4':zzx, 'yyy':xxx];
+  library[5]=['helen5':agc, 'yyy':xxx];*/
+
+function OverdueBorrowers(library_number){
+    var target = document.getElementById('OverdueBorrower');
+    var taipeiLibrary=[];
+    var overdueBook=['aaa','ccc','alan','kevin'];
+    taipeiLibrary.push(overdueBook);
+
+    var rowCount=document.getElementById('OverdueBorrower').rows.length;
+    while(rowCount>1){   //dynamic clear table
+      document.getElementById('OverdueBorrower').deleteRow(1)
+    }
+
+    if(library_number==0){
+        target.innerHTML += "<tr><td>"+"aa"+"</td><td>"+"bb"+"</td><td>";
+        target.innerHTML += "<tr><td>"+"aa"+"</td><td>"+"bb"+"</td><td>";
+        rowCount+=2;
+        //for(var i=0,k=1 ; i<taipeiLibrary[library_number].length ; i+2,k+2){
+          //  target.innerHTML += "<tr><td>"+taipeiLibrary[library_number[i]]+"</td><td>"+taipeiLibrary[library_number[k]]+"</td><td>"; //overdue borrowers' data didn't build yet.
+        //}
+    }
+    //target.innerHTML += "<tr><td>"+"aa"+"</td><td>"+"bb"+"</td><td>";
   }
 </script>
+
   <!-- The Manage Section Book manage 需要修改的地方-->
   <div class="w3-black" id="tour">
     <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
         <h2 class="w3-wide w3-center">Book Manage</h2><br>
         <h3 class="w3-opacity w3-center">Adding new books:</h3>
         <div class="keyin-group">
-            <center><input type="BookID" class="form-control" id="BookID" placeholder="BookID" name="BookID" style="width:49.8%; display:inline" >
-            <input type="Title" class="form-control" id="Title" placeholder="Title" name="Title" style="width:49.8%; display:inline">
-            <input type="Author" class="form-control" id="Author" placeholder="Author" name="Author" style="width:49.8%; display:inline">
-            <input type="PublisherName" class="form-control" id="PublisherName" placeholder="PublisherName" name="PublisherName" style="width:49.8%; display:inline"></center>
+            <center><input type="text" class="form-control" id="BookID" placeholder="BookID" name="BookID" style="width:49.8%; display:inline" >
+            <input type="text" class="form-control" id="Title" placeholder="Title" name="Title" style="width:49.8%; display:inline">
+            <input type="text" class="form-control" id="Author" placeholder="Author" name="Author" style="width:49.8%; display:inline">
+            <input type="text" class="form-control" id="PublisherName" placeholder="PublisherName" name="PublisherName" style="width:49.8%; display:inline"></center>
         </div><br>
         <center><button type="submit" class="btn btn-primary" onclick="addBooktoList('BookID', 'Title','Author',
          'PublisherName')">Submit</button></center><br>
@@ -195,19 +226,20 @@ body {font-family: "Lato", sans-serif}
         <form action="/action_page.php">
           <div class="form-group">
             <label for="sel1">Please select branch:</label>
-            <center><select class="form-control" id="sel1" name="sellist1">
-              <option>All</option>
-              <option>TPEL01 台北巿立圖書館總館</option>
-              <option>TPEL02 台北巿立圖書館中正分館</option>
-              <option>TPEL03 台北巿立圖書館中山分館</option>
-              <option>TPEL04 台北巿立圖書館松山分館</option>
-              <option>TPEL05 台北巿立圖書館文山分館</option>
-              <option>TPEL06 台北巿立圖書館內湖分館</option>
+            <center><select onchange="OverdueBorrowers(value)" class="form-control" id="sel1" name="sellist1">
+              <option>Please choose the library</option>
+              <option value=0>All</option>
+              <option value=1>TPEL01 台北巿立圖書館總館</option>
+              <option value=2>TPEL02 台北巿立圖書館中正分館</option>
+              <option value=3>TPEL03 台北巿立圖書館中山分館</option>
+              <option value=4>TPEL04 台北巿立圖書館松山分館</option>
+              <option value=5>TPEL05 台北巿立圖書館文山分館</option>
+              <option value=6>TPEL06 台北巿立圖書館內湖分館</option>
             </select>
           </div>
-          <center><button onclick= type="submit" class="btn btn-primary">Submit</button></center>
+          <!--<center><button type="button" onclick="OverdueBorrowers('aaaaa')" class="btn btn-primary">Submit</button></center>-->
         </form><br>
-        <table> 
+        <table id="OverdueBorrower"> 
           <tr> 
             <th>Title</th>
             <th>Borrower</th>
@@ -222,6 +254,7 @@ body {font-family: "Lato", sans-serif}
 <!--以下忽略-->
 <script>
 // Automatic Slideshow - change image every 4 seconds
+/*
 var myIndex = 0;
 carousel();
 
@@ -254,6 +287,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+*/
 </script>
 
 </body>
